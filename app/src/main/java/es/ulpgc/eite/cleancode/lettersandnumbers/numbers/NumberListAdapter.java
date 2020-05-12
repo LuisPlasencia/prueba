@@ -55,6 +55,7 @@ public class NumberListAdapter extends ArrayAdapter<NumberData> {
           .inflate(R.layout.cell_list, parent, false);
     }
 
+
     itemView.setTag(itemList.get(position));
     itemView.setOnClickListener(clickListener);
 

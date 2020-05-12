@@ -1,8 +1,12 @@
 package es.ulpgc.eite.cleancode.lettersandnumbers.numbers;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 
 import es.ulpgc.eite.cleancode.lettersandnumbers.app.LettersToNumbersState;
+import es.ulpgc.eite.cleancode.lettersandnumbers.app.NumbersToLettersState;
 import es.ulpgc.eite.cleancode.lettersandnumbers.data.NumberData;
 
 public class NumberListPresenter implements NumberListContract.Presenter {
@@ -24,13 +28,14 @@ public class NumberListPresenter implements NumberListContract.Presenter {
 
     // initialize the state if is necessary
     if (state == null) {
+      Log.d ( "hola", "hola");
       state = new NumberListState();
     }
 
     // use passed state if is necessary
     LettersToNumbersState savedState = router.getStateFromPreviousScreen();
-    if (savedState != null) {
 
+    if (savedState != null) {
       // update the model if is necessary
       model.onDataFromPreviousScreen(savedState.data);
     }
@@ -43,24 +48,26 @@ public class NumberListPresenter implements NumberListContract.Presenter {
 
     // update the model if is necessary
     model.onRestartScreen(state.data);
+
   }
 
   @Override
   public void onResume() {
     // Log.e(TAG, "onResume()");
 
-    /*
-    // use passed state if is necessary
-    NumberListState savedState = router.getStateFromNextScreen();
-    if (savedState != null) {
 
-      // update the model if is necessary
-      model.onDataFromNextScreen(savedState.data);
-    }
-    */
+//    // use passed state if is necessary
+//    NumberListState savedState = router.getStateFromNextScreen();
+//    if (savedState != null) {
+//
+//      // update the model if is necessary
+//      model.onDataFromNextScreen(savedState.data);
+//    }
 
     // call the model and update the state
     state.data = model.getStoredData();
+
+
 
     // update the view
     view.get().onDataUpdated(state);
@@ -70,6 +77,10 @@ public class NumberListPresenter implements NumberListContract.Presenter {
   @Override
   public void onBackPressed() {
     // Log.e(TAG, "onBackPressed()");
+    state.datasource = new ArrayList<>();
+    NumbersToLettersState estado = new NumbersToLettersState();
+    estado.data = state.data;
+    router.passStateToPreviousScreen(estado);
   }
 
   @Override
@@ -79,7 +90,7 @@ public class NumberListPresenter implements NumberListContract.Presenter {
 
   @Override
   public void onDestroy() {
-    // Log.e(TAG, "onDestroy()");
+     Log.e(TAG, "onDestroy()");
   }
 
   @Override
@@ -90,7 +101,16 @@ public class NumberListPresenter implements NumberListContract.Presenter {
   @Override
   public void onClickNumberListButton() {
     // Log.e(TAG, "onClickNumberListButton()");
-  }
+
+
+    NumberData numero = new NumberData();
+    numero.number = state.number;
+    state.number ++;
+
+    state.datasource.add(numero);
+    view.get().onDataUpdated(state);
+    }
+
 
   @Override
   public void injectView(WeakReference<NumberListContract.View> view) {

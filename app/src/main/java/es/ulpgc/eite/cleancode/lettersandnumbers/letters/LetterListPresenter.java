@@ -2,6 +2,7 @@ package es.ulpgc.eite.cleancode.lettersandnumbers.letters;
 
 import java.lang.ref.WeakReference;
 
+import es.ulpgc.eite.cleancode.lettersandnumbers.app.LettersToNumbersState;
 import es.ulpgc.eite.cleancode.lettersandnumbers.app.NumbersToLettersState;
 import es.ulpgc.eite.cleancode.lettersandnumbers.data.LetterData;
 
@@ -45,6 +46,7 @@ public class LetterListPresenter implements LetterListContract.Presenter {
 
     // update the model if is necessary
     model.onRestartScreen(state.data);
+    view.get().onDataUpdated(state);
   }
 
   @Override
@@ -86,11 +88,36 @@ public class LetterListPresenter implements LetterListContract.Presenter {
   @Override
   public void onClickLetterListCell(LetterData data) {
     // Log.e(TAG, "onClickLetterListCell()");
+    LettersToNumbersState pasadoDeLetra= new LettersToNumbersState();
+    pasadoDeLetra.data = state.data;
+    router.passStateToNextScreen(pasadoDeLetra);
+    view.get().navigateToNextScreen();
   }
 
   @Override
   public void onClickLetterListButton() {
     // Log.e(TAG, "onClickLetterListButton()");
+    LetterData letra = new LetterData();
+    switch(state.data){
+      case "A" :
+        state.data = "B";
+        break;
+      case "B":
+        state.data = "C";
+        break;
+      case "C":
+        state.data = "D";
+        break;
+      case "D":
+        state.data = "E";
+        break;
+      default:
+        state.data = "A";
+      }
+
+    letra.letter = state.data;
+    state.datasource.add(letra);
+    view.get().onDataUpdated(state);
   }
 
   @Override

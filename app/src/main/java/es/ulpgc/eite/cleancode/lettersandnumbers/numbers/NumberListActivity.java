@@ -70,8 +70,6 @@ public class NumberListActivity
   @Override
   public void onDataUpdated(NumberListViewModel vm) {
     //Log.e(TAG, "onDataUpdated()");
-
-
     // deal with the datasource
     ((ListView) findViewById(R.id.numberList)).setAdapter(
         new NumberListAdapter(this,vm.datasource,new View.OnClickListener() {
