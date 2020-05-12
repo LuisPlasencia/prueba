@@ -1,5 +1,7 @@
 package es.ulpgc.eite.cleancode.lettersandnumbers.letters;
 
+import android.util.Log;
+
 import java.lang.ref.WeakReference;
 
 import es.ulpgc.eite.cleancode.lettersandnumbers.app.LettersToNumbersState;
@@ -45,6 +47,7 @@ public class LetterListPresenter implements LetterListContract.Presenter {
     // Log.e(TAG, "onRestart()");
 
     // update the model if is necessary
+
     model.onRestartScreen(state.data);
     view.get().onDataUpdated(state);
   }
@@ -56,14 +59,17 @@ public class LetterListPresenter implements LetterListContract.Presenter {
     // use passed state if is necessary
     NumbersToLettersState savedState = router.getStateFromNextScreen();
     if (savedState != null) {
-
+      Log.d("holas", savedState.data);
       // update the model if is necessary
       model.onDataFromNextScreen(savedState.data);
     }
 
 
     // call the model and update the state
+    if(state.data != null)
+    Log.d("hola", state.data);
     state.data = model.getStoredData();
+    Log.d("hola", state.data);
 
     // update the view
     view.get().onDataUpdated(state);
