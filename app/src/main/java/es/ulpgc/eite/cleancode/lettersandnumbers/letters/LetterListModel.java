@@ -33,5 +33,6 @@ public class LetterListModel implements LetterListContract.Model {
   @Override
   public void onDataFromPreviousScreen(String data) {
     // Log.e(TAG, "onDataFromPreviousScreen()");
+    this.data = data;
   }
 }
